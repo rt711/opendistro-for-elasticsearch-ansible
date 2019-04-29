@@ -27,6 +27,12 @@ Example Playbook Usage
 
 Run the playbook with the supplied wrapper script: ./push.sh dev
 
+Inspec tests for compliance
+----------------
+inspec directory contains test_compliance.rb which is checking the presence of default password hashes. <br>
+Usage: <br>
+inspec exec inspec/test_compliance.rb
+
 License
 -------
 
