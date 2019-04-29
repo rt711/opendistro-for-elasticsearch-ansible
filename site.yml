@@ -1,0 +1,19 @@
+---
+ - name: Maintain OpenDistro Elastic Configuration
+   vars_files:
+     - group_vars/main.yml
+     #- "vars/{{ Environment }}/main.yml"
+   roles:
+     - system
+     - opendistro-elastic
+   hosts:
+     elastic
+
+ - name: Maintain OpenDistro Elastic's Kibana Configuration
+   vars_files:
+     - group_vars/main.yml
+     #- "vars/{{ Environment }}/main.yml"
+   roles:
+     - opendistro-elastic-kibana
+   hosts:
+     kibana

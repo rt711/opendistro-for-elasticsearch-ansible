@@ -1,0 +1,25 @@
+---
+# tasks file for opendistro-elastic
+
+- name: install opendistroforelasticsearch-kibana
+  apt:
+    name: opendistroforelasticsearch-kibana
+    update_cache: yes
+  become: yes
+
+- name: configure kibana
+  template:
+    src: templates/kibana.yml.j2
+    dest: /etc/kibana/kibana.yml
+    owner: root
+    group: root
+    mode: 0644
+  become: yes
+
+- name: add kibana service to onboot
+  service: name=kibana enabled=yes
+  become: yes
+  
+- name: start kibana service
+  service: name=kibana state=started
+  become: yes

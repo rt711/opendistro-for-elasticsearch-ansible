@@ -1,0 +1,60 @@
+---
+# tasks file for opendistro-elastic
+
+- name: add opendistroforelastic repository keys
+  apt_key:
+    url: https://d3g5vo6xdbdb9a.cloudfront.net/GPG-KEY-opendistroforelasticsearch
+    state: present
+  become: yes
+
+- name: add openjdk repository 
+  apt_repository:
+    repo: ppa:openjdk-r/ppa
+    state: present
+  become: yes
+
+- name: install openjdk
+  apt:
+    name: openjdk-11-jdk
+    update_cache: yes
+  become: yes
+
+- name: add opendistro elastic repository
+  apt_repository:
+    repo: deb https://d3g5vo6xdbdb9a.cloudfront.net/apt stable main
+    state: present
+    filename: opendistroforelasticsearch.list
+  become: yes
+
+- name: install opendistroforelasticsearch
+  apt:
+    name: opendistroforelasticsearch
+    update_cache: yes
+  become: yes
+
+- name: configure elasticsearch
+  template:
+    src: templates/elasticsearch.yml.j2
+    dest: /etc/elasticsearch/elasticsearch.yml
+    owner: root
+    group: elasticsearch
+    mode: 0660
+  become: yes
+
+- name: configure elasticsearch password file
+  template:
+    src: templates/internal_users.yml.j2
+    dest: /usr/share/elasticsearch/plugins/opendistro_security/securityconfig/internal_users.yml
+    owner: root
+    group: root
+    mode: 0644
+  become: yes
+
+
+- name: add elasticsearch service to onboot
+  service: name=elasticsearch enabled=yes
+  become: yes
+
+- name: start elasticsearch service
+  service: name=elasticsearch state=started
+  become: yes

@@ -1,0 +1,10 @@
+[all:children]
+elastic
+
+[elastic]
+opend-es-01 ansible_host=IP1 ansible_python_interpreter=/usr/bin/python3 
+opend-es-02 ansible_host=IP2 ansible_python_interpreter=/usr/bin/python3 
+opend-es-03 ansible_host=IP3 ansible_python_interpreter=/usr/bin/python3 
+
+[kibana]
+opend-es-03 ansible_host=IP3 ansible_python_interpreter=/usr/bin/python3
