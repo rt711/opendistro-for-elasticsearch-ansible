@@ -52,3 +52,23 @@ control 'snapshotrestore password check' do
         its(['snapshotrestore','hash']) { should_not eq('$2y$12$DpwmetHKwgYnorbgdvORCenv4NAK8cPUg8AI6pxLCuWf/ALc0.v7W')}
     end
   end
+
+control 'Certificates' do
+  impact 0.7
+  title 'Check presence of demo certificates'
+  describe file('/etc/elasticsearch/esnode-key.pem') do
+    its('sha256sum') { should eq 'd14aefe70a592d7a29e14f3ff89c3d0070c99e87d21776aa07d333ee877e758f' }
+  end
+  describe file('/etc/elasticsearch/esnode.pem') do  
+    its('sha256sum') { should_not eq '54a70016e0837a2b0c5658d1032d7ca32e432c62c55f01a2bf5adcb69a0a7ba9' }
+  end
+  describe file('/etc/elasticsearch/root-ca.pem') do
+    its('sha256sum') { should_not eq '9b13661c073d864c28ad7b13eda67dcb6cbc2f04d116adc7c817c20b4c7ed361' }
+  end    
+  describe file('/etc/elasticsearch/kirk-key.pem') do
+    its('sha256sum') { should_not eq 'bdc141ab2272c779d0f242b79063152c49e1b06a2af05e0fd90d505f2b44d5f5' }
+  end    
+  describe file('/etc/elasticsearch/kirk.pem') do
+    its('sha256sum') { should_not eq '3e839e2b059036a99ee4f742814995f2fb0ced7e9d68a47851f43a3c630b5324' }
+  end    
+end  
