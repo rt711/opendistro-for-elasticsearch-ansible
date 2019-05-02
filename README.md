@@ -35,7 +35,7 @@ inspec directory contains test_compliance.rb which is checking <br>
 <br>
 
 Usage: <br>
-inspec exec inspec/test_compliance.rb -t user@host
+inspec exec inspec/test_compliance.rb -t ssh://user@host -i /your/private/ssh/key.pem  --sudo
 
 License
 -------
