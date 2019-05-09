@@ -12,8 +12,41 @@ ClusterName: opendistro-c01
 ElasticsearchKibanaUsername: kibanaserver
 ElasticsearchKibanaPassword: !vault |
           $ANSIBLE_VAULT;1.1;AES256
-          33326363626536363434636537333161383762303666643533613632346332383734316366656331
-          3338613939303163633466633766633164383062623064390a643731336332383961666130383633
-          30626631646366306663653966303633316337626537343663326131383831373733663165316261
-          6631363936666537350a313534313936663837656432346565383365613135633433323665366665
-          3762
+          30383938653861323930646230363839636136366535383637313661383433663630383962646462
+          6336313432376638343839393237643861643437316661330a663664333134613838663762346535
+          33396139353533356661316336323861363934393939323062353866626632366630653365386432
+          3631636333663562350a623339376239316665313039313561353338373731636662643863303432
+          3333
+
+######## Start OpenDistro for Elasticsearch Security Demo Configuration ########
+# WARNING: revise all the lines below before you go into production
+
+EsPath: "/etc/elasticsearch/"
+
+PemCertFile: "esnode.pem"
+PemKeyFile: "esnode-key.pem"
+PemTrustedCasFile: "root-ca.pem"
+
+
+
+OpendistroSecuritySslTransportPemCertFilepath: "{{ EsPath }}{{ PemCertFile }}" #"esnode.pem"
+OpendistroSecuritySslTransportPemKeyFilePath: "{{ EsPath }}{{ PemKeyFile }}" #"esnode-key.pem"
+OpendistroSecuritySslTransportPemTrustedCasFilePath: "{{ EsPath }}{{ PemTrustedCasFile }}" #"root-ca.pem"
+OpendistroSecuritySslTransportEnforceHostnameVerification: false
+OpendistroSecuritySslHttpEnabled: true
+OpendistroSecuritySslHttpPemcertFilePath: "{{ EsPath }}{{ PemCertFile }}" #"esnode.pem"
+OpendistroSecuritySslHttpPemkeyFilePath: "{{ EsPath }}{{ PemKeyFile }}" #"esnode-key.pem"
+OpendistroSecuritySslHttpPemtrustedcasFilePath: "{{ EsPath }}{{ PemTrustedCasFile }}" #"root-ca.pem"
+OpendistroSecurityAllowUnsafeDemoCertificates: true
+OpendistroSecurityAllowDefaultInitSecurityIndex: true
+OpendistroSecurityAuthcz_admin_dn:
+  - CN=kirk,OU=client,O=client,L=test, C=de
+
+OpendistroSecurityAuditType: internal_elasticsearch
+OpendistroSecurityEnableSnapshotRestorePrivilege: true
+OpendistroSecurityCheckSnapshotRestoreWritePrivileges: true
+OpendistroSecurityRestapiRolesEnabled: ["all_access", "security_rest_api_access"]
+ClusterRoutingAllocationDiskThresholdEnabled: false
+DiscoveryZenMinimumMasterNodes: 3
+NodeMaxLocalStorageNodes: 3
+######## End OpenDistro for Elasticsearch Security Demo Configuration ########

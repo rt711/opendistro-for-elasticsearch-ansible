@@ -40,6 +40,9 @@
     group: elasticsearch
     mode: 0660
   become: yes
+  register: elasticsearch_configuration
+  notify:
+  - elasticsearch restart
 
 - name: configure elasticsearch password file
   template:
@@ -49,7 +52,7 @@
     group: root
     mode: 0644
   become: yes
-
+  register: elasticsearch_users
 
 - name: add elasticsearch service to onboot
   service: name=elasticsearch enabled=yes
@@ -58,3 +61,4 @@
 - name: start elasticsearch service
   service: name=elasticsearch state=started
   become: yes
+
